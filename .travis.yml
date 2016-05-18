@@ -9,8 +9,8 @@ env:
 install:
   - pip install -r requirements.txt
 
-script: python manage.py test
+script: python manage.py behave
 
-branches: 
+branches:
   only:
   - master
