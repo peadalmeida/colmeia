@@ -1,0 +1,38 @@
+﻿{% extends "app/site/layoutSite.html" %}
+{% load staticfiles %}
+{% block content %}
+
+ <div class="container marketing">
+        <hr class="featurette-divider">
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading"> A Colmeia </h2>
+                <p class="lead"> <p>Em  um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, 
+                parece natural  que,  em  pouco  tempo,  prestadores  de  servi&ccedil;o  e  pessoas  necessitando  de  servi&ccedil;os  
+                espec&iacute;ficos busquem  maneiras  mais  &agrave;geis  e  pr&aacute;ticas  de  entrarem  em  contato.  Atualmente,  &eacute;  comum  
+                que  ambos  os lados gastem muito tempo nesta tarefa, ou realizando propaganda que &eacute; dif&iacute;cil de ser direcionada 
+                e atingir seu  p&uacute;blico  alvo,  ou  procurando  aleatoriamente  an&uacute;ncios  ou  recorrendo  a  indica&ccedil;&atilde;o  nem  sempre
+                  muito precisas de amigos e parentes.</p>
+				  
+				  
+				  <h2 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h2>
+					
+					<div class="col-md-5">
+                        <a href="{% url 'cadPrestador'%}"> 
+					<img src="{% static 'sistema/images/anuncios/prestador.png'%}" width="100%">
+                            </a>
+					</div>
+					
+					<div class="col-md-5" style="float: right;">
+                        <a href="{% url 'cadContratante'%}"> 
+						<img src="{% static 'sistema/images/anuncios/contratante.png'%}" width="100%">
+                        </a>
+					</div>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+            </div>
+        </div>
+</div>  
+
+{% endblock %}

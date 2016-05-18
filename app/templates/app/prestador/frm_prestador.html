@@ -1,0 +1,204 @@
+﻿{% extends "app/geral/layout.html" %}
+
+{% block content %}
+<div class="span3">
+{% include "app/geral/menu.html" %}
+ </div>
+<div class="span9">
+	<div class="content">
+
+		<div class="module">
+			<div class="module-head">
+				<h2>Prestador</h2>
+			</div>
+			<div class="module-body">
+
+					<div class="alert">
+						<button type="button" class="close" data-dismiss="alert">×</button>
+						<strong>Atenção!</strong> Tem certeza que deseja cancelar?
+					</div>
+					<div class="alert alert-error">
+						<button type="button" class="close" data-dismiss="alert">×</button>
+						<strong>Desculpe!</strong> O campo XXX está invalido.
+					</div>
+					<div class="alert alert-success">
+						<button type="button" class="close" data-dismiss="alert">×</button>
+						<strong>Muito bem!</strong> Informação armazenada com sucesso! :)
+					</div>
+
+					<br />
+
+					<form class="form-horizontal row-fluid">
+						<!-- Text input-->
+						<div class="control-group">
+							<label class="control-label" for="nome">Nome</label>
+							<div class="controls">
+							<input id="nome" name="nome" type="text" placeholder="" class="span7" required="">
+							<span class="help-block">Nome próprio ou nome fantasia</span>
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="control-group">
+							<label class="control-label" for="CPFCNPJ">CPF/CNPJ</label>
+							<div class="controls">
+							<input id="CPFCNPJ" name="CPFCNPJ" type="text" placeholder="" class="span5" required="">
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="control-group">
+							<label class="control-label" for="endereco">Endereço</label>
+							<div class="controls">
+							<input id="endereco" name="endereco" type="text" placeholder="Rua Exemplo, 000 - Apto 2001A" class="span7" required="">
+
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="control-group">
+							<label class="control-label" for="bairro">Bairro</label>
+							<div class="controls">
+							<input id="bairro" name="bairro" type="text" placeholder="" class="span5" required="">
+
+							</div>
+						</div>
+
+						<!-- Select Basic -->
+						<div class="control-group">
+							<label class="control-label" for="UF">UF</label>
+							<div class="controls">
+							<select id="UF" name="UF" class="span5">
+								<option value="">- Clique para selecionar -</option>
+											<option value="AC">Acre</option>
+											<option value="AL">Alagoas</option>
+											<option value="AP">Amapa</option>
+											<option value="AM">Amazonas</option>
+											<option value="BA">Bahia</option>
+											<option value="CE">Ceara</option>
+											<option value="DF">Distrito Federal</option>
+											<option value="ES">Espirito Santo</option>
+											<option value="GO">Goias</option>
+											<option value="MA">Maranhao</option>
+											<option value="MS">Mato Grosso do Sul</option>
+											<option value="MT">Mato Grosso</option>
+											<option value="MG">Minas Gerais</option>
+											<option value="PA">Para</option>
+											<option value="PB">Paraiba</option>
+											<option value="PR">Parana</option>
+											<option value="PE">Pernambuco</option>
+											<option value="PI">Piaui</option>
+											<option value="RJ">Rio de Janeiro</option>
+											<option value="RN">Rio Grande do Norte</option>
+											<option value="RS">Rio Grande do Sul</option>
+											<option value="RO">Rondonia</option>
+											<option value="RR">Roraima</option>
+											<option value="SC">Santa Catarina</option>
+											<option value="SP">Sao Paulo</option>
+											<option value="SE">Sergipe</option>
+											<option value="TO">Tocantins</option>
+							</select>
+							</div>
+						</div>
+
+						<!-- Select Basic -->
+						<div class="control-group">
+							<label class="control-label" for="cidade">Cidade</label>
+							<div class="controls">
+							<select id="cidade" name="cidade" class="span5">
+								<option value="0">-- Selecione a sua cidade --</option>
+								<option value="1">Option two</option>
+							</select>
+							</div>
+						</div>
+
+						<!-- Text input-->
+						<div class="control-group">
+							<label class="control-label" for="cep">CEP</label>
+							<div class="controls">
+							<input id="cep" name="cep" type="text" placeholder="" class="span3" required="">
+
+							</div>
+						</div>
+
+						<!-- Textarea -->
+						<div class="control-group">
+							<label class="control-label" for="servico">Descrição do Serviço</label>
+							<div class="controls">
+							<textarea class="span5" id="servico" rows="10" cols="40" name="servico">
+							Dica especial, use tópicos...
+							-Manutenção de Microondas
+							-Limpeza em Geral
+							-Montagem de móveis
+							</textarea>
+							</div>
+						</div>
+
+						<!-- Multiple Radios -->
+						<div class="control-group">
+							<label class="control-label" for="tipoTrabalho">Tipo de Serviço</label>
+							<div class="controls">
+							<div class="radio">
+							<label for="tipoTrabalho-0">
+								<input type="radio" name="tipoTrabalho" id="tipoTrabalho-0" value="R" checked="checked">
+								Remunerado
+							</label>
+							</div>
+							<div class="radio">
+							<label for="tipoTrabalho-1">
+								<input type="radio" name="tipoTrabalho" id="tipoTrabalho-1" value="V">
+								Voluntário
+							</label>
+							</div>
+							</div>
+						</div>
+
+						<!-- Prepended text-->
+						<div class="control-group">
+							<label class="control-label" for="valorHora">Valor por hora</label>
+							<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on">R$</span>
+								<input id="valorHora" name="valorHora" class="span10" type="text">
+							</div>
+							<p class="help-block">Custo por hora do seu serviço</p>
+							</div>
+						</div>
+
+
+
+							<div class="control-group">
+								<label class="control-label" for="basicinput">Descreva os dias e horários disponíveis</label>
+									<div class="controls">
+										<textarea class="span8" rows="5"></textarea>
+									</div>
+							</div>
+
+							<!-- eMAIL -->
+						<div class="control-group">
+							<label class="control-label" for="email">E-mail</label>
+							<div class="controls">
+							<input class="span3" type="email" id="email" name="email" required>
+							</div>
+						</div>
+						<!-- Senha -->
+						<div class="control-group">
+							<label class="control-label" for="senha">Senha</label>
+							<div class="controls">
+							<input class="span3" type="password" id="senha" name="senha" required>
+							</div>
+						</div>
+
+
+						<div class="control-group">
+							<div class="controls">
+								<button type="submit" class="btn btn-primary btn-lg span3">Gravar</button>
+								<button type="submit" class="btn btn-danger btn-lg span3">Cancelar</button>
+							</div>
+						</div>
+					</form>
+			</div>
+		</div>
+	</div><!--/.content-->
+</div><!--/.span9-->
+{% endblock %}         		
