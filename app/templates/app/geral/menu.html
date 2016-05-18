@@ -3,103 +3,19 @@
             <div class="sidebar">
                 <ul class="widget widget-menu unstyled">
                     <li class="active" ><a href="{% url 'inicio' %}"><i class="menu-icon icon-dashboard"></i>Início </a></li>
+                <li><a href="{% url 'quemSomos' %}"><i class="menu-icon icon-tasks"></i>Quem somos</a></li>
+				
+                {% if user.usuario.IdentificadorPerfil_id == 1 %}
+                    {% include "app/geral/menuAdm.html" %}
+                {% endif %}
+			        
+                 {% if user.usuario.IdentificadorPerfil_id == 2 %}
+                    {% include "app/geral/menuPrest.html" %}
+                {% endif %}
 
-				<li><a href="{% url 'quemSomos' %}"><i class="menu-icon icon-tasks"></i>Quem somos</a></li>
-				<!-- INICIO MENU ADMINISTRADOR  -->
-				<li>
-					<a class="collapsed" data-toggle="collapse" href="#togglePages">
-						<i class="menu-icon icon-bullhorn"></i>
-						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
-						Administrador
-					</a>
-					<ul id="togglePages" class="collapse unstyled">
-						<li>
-							<a href="{% url 'admin' %}">
-								<i class="icon-inbox"></i>
-								Inicial Administrador
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'prestadores' %}">
-								<i class="icon-inbox"></i>
-								Novos Prestadores
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'contratantes' %}">
-								<i class="icon-inbox"></i>
-								Novos Contratantes
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'relatorioAdm' %}">
-								<i class="icon-inbox"></i>
-								Relatórios Administrativos
-							</a>
-						</li>
-					</ul>
-				</li>
-				<!-- FIM MENU ADMINISTRADOR  -->
-
-				<!-- INICIO MENU PRESTADOR  -->
-				<li>
-					<a class="collapsed" data-toggle="collapse" href="#menuPrestador">
-						<i class="menu-icon icon-briefcase"></i>
-						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
-						Prestador
-					</a>
-					<ul id="menuPrestador" class="collapse unstyled">
-						<li>
-							<a href="{% url 'cadPrestador' %}">
-								<i class="icon-inbox"></i>
-								Cadastro Prestador
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'servPrestados' %}">
-								<i class="icon-inbox"></i>
-								Serviços Prestados
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'colmeiaPontos' %}">
-								<i class="icon-inbox"></i>
-								Colmeia Pontos
-							</a>
-						</li>
-					</ul>
-				</li>
-				<!-- FIM MENU PRESTADOR  -->
-
-				<!-- INICIO MENU CONTRATANTE  -->
-				<li>
-					<a class="collapsed" data-toggle="collapse" href="#menuContratante">
-						<i class="menu-icon icon-group"></i>
-						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
-						Contratante
-					</a>
-					<ul id="menuContratante" class="collapse unstyled">
-						<li>
-							<a href="{% url 'cadContratante' %}">
-								<i class="icon-inbox"></i>
-								Cadastro Contratante
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'servContratados' %}">
-								<i class="icon-inbox"></i>
-								Serviços Contratados
-							</a>
-						</li>
-						<li>
-							<a href="{% url 'relContratante' %}">
-								<i class="icon-inbox"></i>
-								Relatórios
-							</a>
-						</li>
-					</ul>
-				</li>
-				<!-- FIM MENU CONTRATANTE  -->
+                 {% if user.usuario.IdentificadorPerfil_id == 3 %}
+                    {% include "app/geral/menuCont.html" %}
+                {% endif %}
 
 				<li>
 					<a href="{% url 'sair' %}">

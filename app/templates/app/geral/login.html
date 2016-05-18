@@ -3,7 +3,9 @@
 
  <link rel="stylesheet" type="text/css" href="{% static 'sistema/bootstrap/css/bootstrap.min.css' %}" />
  <link rel="stylesheet" type="text/css" href="{% static 'sistema/css/theme.css' %}" />
-   
+ <link rel="stylesheet" type="text/css" href="{% static 'sistema/bootstrap/css/bootstrap-responsive.min.css' %}" />
+ <link rel="stylesheet" type="text/css" href="{% static 'sistema/images/icons/css/font-awesome.css' %}" />
+
 {% block content %}
 <!--
 <h2>{{ title }}</h2>
@@ -52,7 +54,7 @@
 				</a>
 
 				<a class="brand" href="index.html">
-			  		Colmeia
+			  		 
 			  	</a>
 			</div>
 		</div>
@@ -64,21 +66,33 @@
 		<div class="container">
 			<div class="row">
 				<div class="module module-login span4 offset4">
-					<form class="form-vertical" action="{% url 'inicio' %}">
+                    
+					<form class="form-vertical" method="POST" action="fazLogin">
+                        {% csrf_token %} 
 						<div class="module-head">
 							<h3>Entrar</h3>
+                        
 						</div>
+                        <div style="text-align:center;"> <a href="{% url 'index'%}"><img src="{% static 'sistema/images/logo.png'%}" alt="Col&eacute;ia" width="150px"/> </a></div>
 						<div class="module-body">
 							<div class="control-group">
 								<div class="controls row-fluid">
-									<input class="span12" type="text" id="inputEmail" placeholder="Usu&aacute;rio">
+									<input class="span12" type="text" id="login" name="login" placeholder="Digite seu e-mail" required>
 								</div>
 							</div>
 							<div class="control-group">
 								<div class="controls row-fluid">
-									<input class="span12" type="password" id="inputPassword" placeholder="Senha">
+									<input class="span12" type="password" id="password" name="password" placeholder="Digite a sua senha" required>
 								</div>
 							</div>
+                            
+                           {% if msg and not logged %}
+                                {% include "app/geral/feedbackUser/msgErro.html" %}
+                           {% endif %}
+
+                           {% if msg and logged %}
+                                {% include "app/geral/feedbackUser/msgAlerta.html" %}
+                           {% endif %}
 						</div>
 						<div class="module-foot">
 							<div class="control-group">
@@ -87,6 +101,7 @@
 									<label class="checkbox">
 										<input type="checkbox">Lembre-me
 									</label>
+                                   
 								</div>
 							</div>
 						</div>
@@ -105,5 +120,8 @@
 
     {% load staticfiles %}
 <script src="{% static 'app/scripts/jquery.validate.min.js' %}"></script>
+<script src="{% static 'sistema/scripts/jquery-1.9.1.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'sistema/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+   
 
 {% endblock %}

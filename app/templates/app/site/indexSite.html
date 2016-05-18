@@ -1,38 +1,85 @@
-﻿{% extends "app/site/layoutSite.html" %}
-{% load staticfiles %}
-{% block content %}
+﻿{% extends "app/site/layoutSite.html" %} {% load staticfiles %} {% block content %}
 
- <div class="container marketing">
-        <hr class="featurette-divider">
-        <div class="row featurette">
-            <div class="col-md-7">
-                <h2 class="featurette-heading"> A Colmeia </h2>
-                <p class="lead"> <p>Em  um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, 
-                parece natural  que,  em  pouco  tempo,  prestadores  de  servi&ccedil;o  e  pessoas  necessitando  de  servi&ccedil;os  
-                espec&iacute;ficos busquem  maneiras  mais  &agrave;geis  e  pr&aacute;ticas  de  entrarem  em  contato.  Atualmente,  &eacute;  comum  
-                que  ambos  os lados gastem muito tempo nesta tarefa, ou realizando propaganda que &eacute; dif&iacute;cil de ser direcionada 
-                e atingir seu  p&uacute;blico  alvo,  ou  procurando  aleatoriamente  an&uacute;ncios  ou  recorrendo  a  indica&ccedil;&atilde;o  nem  sempre
-                  muito precisas de amigos e parentes.</p>
-				  
-				  
-				  <h2 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h2>
-					
-					<div class="col-md-5">
-                        <a href="{% url 'cadPrestador'%}"> 
-					<img src="{% static 'sistema/images/anuncios/prestador.png'%}" width="100%">
-                            </a>
-					</div>
-					
-					<div class="col-md-5" style="float: right;">
-                        <a href="{% url 'cadContratante'%}"> 
-						<img src="{% static 'sistema/images/anuncios/contratante.png'%}" width="100%">
-                        </a>
-					</div>
-            </div>
-            <div class="col-md-5">
-                <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-            </div>
+
+<div class="container marketing">
+  <hr class="featurette-divider">
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading"> A Colmeia </h2>
+      <p class="lead">
+        <p>Em um mundo em que as pessoas utilizam crescentemente a Web para tarefas rotineiras, parece natural que, em pouco tempo, prestadores de servi&ccedil;o e pessoas necessitando de servi&ccedil;os espec&iacute;ficos busquem maneiras mais &agrave;geis
+          e pr&aacute;ticas de entrarem em contato. Atualmente, &eacute; comum que ambos os lados gastem muito tempo nesta tarefa, ou realizando propaganda que &eacute; dif&iacute;cil de ser direcionada e atingir seu p&uacute;blico alvo, ou procurando
+          aleatoriamente an&uacute;ncios ou recorrendo a indica&ccedil;&atilde;o nem sempre muito precisas de amigos e parentes.</p>
+
+        <div class="modal hide" id="contactModal"></div>
+        <h2 class="featurette-heading"> Contrate algu&eacute;m ou seja um Prestador</h2>
+        <div class="col-md-5">
+          <a href="{% url 'cadContratante'%}">
+            <img src="{% static 'sistema/images/anuncios/prestador.png'%}" width="100%" id="incluir" data-toggle="modal" data-target="#myModalIncluir">
+          </a>
         </div>
-</div>  
 
+        <div class="col-md-5" style="float: right;">
+
+          <a href="{% url 'cadContratante'%}">
+            <img src="{% static 'sistema/images/anuncios/contratante.png'%}" width="100%" id="incluir" data-toggle="modal" data-target="#myModalCliente">
+          </a>
+        </div>
+    </div>
+    <div class="col-md-5">
+      <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+    </div>
+  </div>
+  {% if msg %} {{ msg }} {% endif %}
+  <!-- Modal Prestador-->
+  <div class="modal fade" id="myModalIncluir" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Cadastro Prestador</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+          <form class="form-horizontal" action="i_prestador" method="POST">
+            {% csrf_token %} {% include "app/site/CadastroUsuarioP.html" %}
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Modal Cliente-->
+  <div class="modal fade" id="myModalCliente" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Cadastro Cliente</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+
+          <form class="form-horizontal" action="i_contratante" method="POST">
+            {% csrf_token %} {% include "app/site/CadastroUsuarioC.html" %}
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+
+$("#id_CpfCnpj").inputmask({mask: ['999.999.999-99', '99.999.999/9999-99']});
+$('input[type=tel]').inputmask('(99) 9999[9]-9999');
+$("#id_CEP").inputmask({mask: ['9.9999-999']});
+$("#id_Numero").inputmask('Regex', { regex: "^[0-9]*$" });
+$("#id_Nome").inputmask('Regex', { regex: "^[a-zA-Z\u00C0-\u00FF ]+" });
+$("#id_Cidade").inputmask('Regex', { regex: "^[a-zA-Z\u00C0-\u00FF ]+" });
+$("#id_Bairro").inputmask('Regex', { regex: "^[a-zA-Z\u00C0-\u00FF ]+" });
+$("#id_Logradouro").inputmask('Regex', { regex: "^[a-zA-Z\u00C0-\u00FF ]+" });
+$("#id_Complemento").inputmask('Regex', { regex: "^[a-zA-Z0-9\u00C0-\u00FF ]+" });
+
+</script>
 {% endblock %}

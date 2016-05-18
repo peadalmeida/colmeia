@@ -17,7 +17,8 @@
             <div class="navbar-inner">
                 <div class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-inverse-collapse">
-                        <i class="icon-reorder shaded"></i></a><a class="brand" href="{% url 'inicio'%}">Colmeia </a>
+                        <i class="icon-reorder shaded"></i></a><a class="brand" href="{% url 'inicio'%}"><img src="{% static 'sistema/images/logo.png'%}" width="100px" style="margin: -10px;"> 
+                    </a>
                     <div class="nav-collapse collapse navbar-inverse-collapse">
                         <ul class="nav nav-icons">
                           <!--  <li><a href="admin.html"><i class="icon-eye-open"></i></a></li>
@@ -33,14 +34,17 @@
 
                             <li><a href="#">Ajuda </a></li>
                             <li class="nav-user dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                
                                 <img src="{% static 'sistema/images/user.png'%}" class="nav-avatar" />
+                                {{ user.first_name}}
                                 <b class="caret"></b></a>
+                            
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Seu perfil</a></li>
 									<li><a href="#">Fale Conosco</a></li>
                                     <li><a href="#">Configurações da conta</a></li>
                                     <li class="divider"></li>
-                                    <li><a href="#">Sair</a></li>
+                                    <li><a href="{% url 'sair' %}">Sair</a></li>
                                 </ul>
                             </li>
                         </ul>

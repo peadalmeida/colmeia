@@ -1,0 +1,36 @@
+﻿	<!-- INICIO MENU PRESTADOR  -->
+				<li style="margin-top:-20px;">
+					<a class="collapsed" data-toggle="collapse" href="#menuPrestador">
+						<i class="menu-icon icon-briefcase"></i>
+						<i class="icon-chevron-down pull-right"></i><i class="icon-chevron-up pull-right"></i>
+						Prestador
+					</a>
+					<ul id="menuPrestador" class="collapse unstyled">
+						<li>
+							<a href="{% url 'cadPrestador' %}">
+								<i class="icon-inbox"></i>
+								Cadastro Prestador
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'servPrestados' %}">
+								<i class="icon-inbox"></i>
+								Serviços Prestados
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'colmeiaPontos' %}">
+								<i class="icon-inbox"></i>
+								Colmeia Pontos
+							</a>
+						</li>
+                        <li>
+							<a href="{% url 'relPrestador' %}">
+								<i class="icon-inbox"></i>
+								Relatórios
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- FIM MENU PRESTADOR  -->
+                {% include "app/geral/menuCont.html" %}
