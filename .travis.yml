@@ -9,7 +9,7 @@ env:
 install:
   - pip install -r requirements.txt
 
-script: python manage.py behave
+script: python manage.py runserver
 
 branches:
   only:

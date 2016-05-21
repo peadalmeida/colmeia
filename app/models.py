@@ -48,7 +48,7 @@ class Endereco(models.Model):
 class Usuario(models.Model):
     #extende os atributos da tabela usuario com relacao 1 para 1
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    IdentificadorUsuario = models.AutoField(primary_key = True)  
+    IdentificadorUsuario = models.AutoField(primary_key = True)
     IdentificadorPerfil = models.ForeignKey(Perfil)
     IdentificadorEndereco = models.ForeignKey(Endereco, null = True)
     IndicadorTipoPessoa = models.IntegerField(choices=TIPO_PESSOA, verbose_name='Tipo de Pessoa')
@@ -59,16 +59,16 @@ class Usuario(models.Model):
     DataHoraAprovacao = models.DateTimeField(null = True)
     DataHoraInclusao = models.DateTimeField(auto_now_add=True)
     DataHoraExclusao = models.DateTimeField(null = True)
-    
+
     @classmethod
     def create(self,IdentificadorEndereco, IdentificadorPerfil, IndicadorTipoPessoa,CpfCnpj,Nome,Telefone1,Telefone2,Email,Senha):
         user = User.objects.create_user(username = Email,
                                         first_name = Nome.split(' ')[0],
                                         password = Senha
-                                        ) 
+                                        )
         user.is_active = False
         user.save()
-        
+
         objUsuario = Usuario(user_id = user.id ,IdentificadorEndereco = IdentificadorEndereco, IdentificadorPerfil = IdentificadorPerfil ,IndicadorTipoPessoa = IndicadorTipoPessoa,CpfCnpj = CpfCnpj,Nome= Nome,Telefone1 = Telefone1,Telefone2 = Telefone2, DataHoraAprovacao = None, DataHoraInclusao = datetime.datetime.now(), DataHoraExclusao = None)
         return objUsuario
 
@@ -113,10 +113,10 @@ class HorarioSemana(models.Model):
 class Categoria(models.Model):
     IdentificadorCategoria = models.AutoField(primary_key = True)
     DescricaoCategoria = models.CharField(max_length = 250)
-   
+
 class SubCategoria(models.Model):
     IdentificadorSubCategoria = models.AutoField(primary_key = True)
-    DescricaoSubCategoria = models.CharField(max_length = 150) 
+    DescricaoSubCategoria = models.CharField(max_length = 150)
 
 class CategoriaSubCategoria(models.Model):
     IdentificadorSubCategoria = models.ForeignKey(SubCategoria)
@@ -145,21 +145,3 @@ class ClienteServico(models.Model):
     DataHoraConfirmacao = models.DateTimeField(null = True)
     DataHoraInclusao = models.DateTimeField(auto_now_add=True)
     DataHoraExclusao = models.DateTimeField(null = True)
-
-
-    #Forms
-#class UsuarioForm(ModelForm):
-#    class Meta:
-#        model = Usuario
-#        fields = ('IndicadorTipoPessoa','CpfCnpj', 'Nome', 'Telefone1', 'Telefone2')
-        
-#Forms
-#class UserForm(ModelForm):
-#    class Meta:
-#        model = User
-#        fields = ('email','password')
-
-#class EnderecoForm(ModelForm):
-#    class Meta:
-#        model = Endereco
-#        fields = ('CEP','Estado', 'Cidade', 'Bairro', 'Logradouro', 'Numero', 'Complemento')
