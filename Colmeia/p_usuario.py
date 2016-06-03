@@ -17,11 +17,11 @@ from django.shortcuts import redirect
 from datetime import datetime
 
 
-def incluirUsuario(request, tipo):
+def incluirUsuario(request):
     objEndereco = Endereco.create(request.POST['CEP'],request.POST['Estado'],request.POST['Cidade'], request.POST['Bairro'],request.POST['Logradouro'],request.POST['Numero'],request.POST['Complemento'] )
     objEndereco.save()
     objEndereco = p_endereco.recuperaUltimoEndereco()
-
+    tipo = request.GET['tipo']
     if tipo == 'p':
         objPerfil = p_perfil.recuperaPerfil('2') #perfil 2 = Prestador
     else:
@@ -32,7 +32,7 @@ def incluirUsuario(request, tipo):
     return objUsuario.Nome.split(' ')[0]
 
 def incluirPrestador(request):
-    nome = incluirUsuario(request, 'p')
+    nome = incluirUsuario(request)
     form = UsuarioForm()
     userfrm = UserForm()
     end = EnderecoForm()
@@ -50,7 +50,7 @@ def incluirPrestador(request):
     )
 
 def incluirContratante(request):
-    nome = incluirUsuario(request, 'c')
+    nome = incluirUsuario(request)
     form = UsuarioForm()
     userfrm = UserForm()
     end = EnderecoForm()
@@ -88,7 +88,8 @@ def aprovaUsuarioP(request):
     #Ativa o cadastro de usuarios para fazer plugIn
     objUser.is_active = True
     objUser.save()
-    
+
+
     
     return redirect('prestadores')
 
@@ -105,10 +106,24 @@ def aprovaUsuarioC(request):
     
     return redirect('contratantes')
 
+def recuperaQtdPrestPendentes():
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(A.user_id) FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) WHERE (B.is_active = 0 AND A.IdPerfil_id = 2)')
+    rows = cursor.fetchall()
+    return rows
+
+def recuperaQtdContPendentes():
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(A.user_id) FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) WHERE (B.is_active = 0 AND A.IdPerfil_id = 1)')
+    rows = cursor.fetchall()
+    return rows
+
+def recuperaQtdContPendentes():
+    return  models.User.filter(IdPerfil = '2').count()
 #recupera todos um objeto especifico pelo id
 def recuperaPrestadoresPendentesAprovacao():
     cursor = connection.cursor()
-    cursor.execute('SELECT A.Nome, B.username, A.Telefone1, A.CpfCnpj, P.DescricaoPerfil, B.id FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) JOIN app_perfil AS P ON (A.IdentificadorPerfil_id = P.IdentificadorPerfil) WHERE (B.is_active = 0 AND A.IdentificadorPerfil_id = 2)')
+    cursor.execute('SELECT A.Nome, B.username, A.Telefone1, A.CpfCnpj, P.DescricaoPerfil, B.id FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) JOIN app_perfil AS P ON (A.IdPerfil_id = P.IdPerfil) WHERE (B.is_active = 0 AND A.IdPerfil_id = 2)')
     rows = cursor.fetchall()
     return rows
 
@@ -116,6 +131,6 @@ def recuperaPrestadoresPendentesAprovacao():
 def recuperaContratantesPendentesAprovacao():
     cursor = connection.cursor()
     
-    cursor.execute('SELECT A.Nome, B.username, A.Telefone1, A.CpfCnpj, P.DescricaoPerfil, B.id FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) JOIN app_perfil AS P ON (A.IdentificadorPerfil_id = P.IdentificadorPerfil) WHERE (B.is_active = 0 AND A.IdentificadorPerfil_id = 3)')
+    cursor.execute('SELECT A.Nome, B.username, A.Telefone1, A.CpfCnpj, P.DescricaoPerfil, B.id FROM app_usuario AS A JOIN auth_user AS B ON (A.user_id = B.id) JOIN app_perfil AS P ON (A.IdPerfil_id = P.IdPerfil) WHERE (B.is_active = 0 AND A.IdPerfil_id = 3)')
     rows = cursor.fetchall()
     return rows

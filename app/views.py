@@ -14,10 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from datetime import datetime
-from .forms import UsuarioForm
-from .forms import UserForm
-from .forms import EnderecoForm
-from Colmeia import p_usuario
+from .forms import UsuarioForm, UserForm, EnderecoForm, DiferencialForm, ServicoForm, DisponibilidadeForm, PesquisaForm,PesquisaFormSite,ContrataServicoForm
+from Colmeia import p_usuario, p_relatorios
+from Colmeia import p_servico, p_categoria, p_diferencial, p_disponibilidade, p_clienteServico
 
 #PAGINA INICIAL DO SITE (GERAL)
 
@@ -26,14 +25,17 @@ def index(request):
     form = UsuarioForm()
     userfrm = UserForm()
     endereco = EnderecoForm()
+    frmPesquisa = PesquisaForm()
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/site/indexSite.html',{'form': form, 'userfrm': userfrm,'endereco':endereco},
+        'app/site/indexSite.html',{'form': form, 'userfrm': userfrm,'endereco':endereco,'frmPesquisa': frmPesquisa},
         context_instance = RequestContext(request,
         {
             'title':'Colmeia | Início',
             'year':datetime.now().year,
+            'servicosPopulares': p_clienteServico.servicosMaisPopulares(),
+            'qtContratacoes': p_clienteServico.recuperaQuantidadeServicos(),
         })
     )
 
@@ -63,8 +65,6 @@ def s_contato(request):
         })
     )
 
-
-
 #PAGINA INICIAL DO SISTEMA
 @login_required(redirect_field_name='')
 def inicio(request):
@@ -77,14 +77,11 @@ def inicio(request):
             context_instance = RequestContext(request,
             {
                 'title':'Colmeia | Index',
-                'year':datetime.now().year,
-                'tipo': request.user.last_name
+                'year':datetime.now().year
             })
     )
 
-
 #PAGINA INICIAL DO SISTEMA
-
 def search(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -126,6 +123,8 @@ def admin(request):
             context_instance = RequestContext(request,
             {
                 'title':'Colmeia | Administrador',
+                'qtPrestadores': p_usuario.recuperaQtdPrestPendentes(),
+                'qtContratantes': p_usuario.recuperaQtdPrestPendentes(),
                 'year':datetime.now().year,
             })
     )
@@ -181,43 +180,114 @@ def relatorioAdm(request):
             {
                 'title':'Colmeia | Relatorios',
                 'year':datetime.now().year,
+                'quantidadeUsuariosGeral': p_relatorios.quantidadeUsuariosGeral(),
+                #'quantidadeUsuariosMensal': p_relatorios.quantidadeUsuariosMensal(),
+                'melhoresAvaliacoes': p_relatorios.melhoresAvaliacoes(),
+                'pioresAvaliacoes': p_relatorios.pioresAvaliacoes(),
             })
     )
    
 
 #PAGINA CADASTRAL DO PRESTADOR
 @login_required(redirect_field_name='')
-def cadPrestador(request):
+def servicosOferecidos(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+        frmServico = ServicoForm()
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
         return render(
             request,
-            'app/prestador/frm_prestador.html',
+            'app/prestador/servicosOferecidos.html', {'frmServico': frmServico},
             context_instance = RequestContext(request,
             {
-                'title':'Colmeia | Cad.Prestador',
+                'title':'Colmeia | Serviços Oferecidos',
                 'year':datetime.now().year,
+                'msg': msg,    
+                'servicos': p_servico.recuperaServicosDoUsuario(request.user.id),
             })
+
     )
-    
+
+#PAGINA CADASTRAL DO PRESTADOR
+@login_required(redirect_field_name='')
+def diferenciais(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+        frmDiferencial = DiferencialForm()
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+        return render(
+            request,
+            'app/prestador/diferenciais.html', {'frmDif': frmDiferencial},
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Diferenciais',
+                'year':datetime.now().year,
+                'frmDif': frmDiferencial,
+                'msg': msg,
+                'diferenciais': p_diferencial.recuperaDiferenciaisPorPrestador(request.user.id),
+            })
+
+    )
 
 #PAGINA DOS SERVIÇOS PRESTADOS
 @login_required(redirect_field_name='')
-def servPrestados(request):
+def disponibilidade(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+        frmDisponibilidade = DisponibilidadeForm()
+        
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+
         return render(
             request,
-            'app/prestador/servPrestados.html',
+            'app/prestador/disponibilidade.html',{'frmDisponibilidade': frmDisponibilidade},
             context_instance = RequestContext(request,
             {
-                'title':'Colmeia | Serv.Prestados',
+                'title':'Colmeia | Disponibilidade',
                 'year':datetime.now().year,
+                'msg': msg,
+                'disponibilidade': p_disponibilidade.recuperaDisponibilidadePorPrestador(request.user.id),
             })
     )
 
+#PAGINA DOS SERVIÇOS PRESTADOS
+@login_required(redirect_field_name='')
+def gerServicos(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+        return render(
+            request,
+            'app/prestador/gerServicos.html',
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Gerenciador de Serviços',
+                'year':datetime.now().year,
+                'msg':msg,
+                'servicos' : p_clienteServico.recuperaServicosPorPrestador(request.user.id),
+            })
+    )
 
 #PAGINA DO COLMEIA PONTOS
 @login_required(redirect_field_name='')
@@ -225,6 +295,12 @@ def colmeiaPontos(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
         return render(
             request,
             'app/prestador/colmeiaPontos.html',
@@ -232,6 +308,7 @@ def colmeiaPontos(request):
             {
                 'title':'Colmeia | Colpontos',
                 'year':datetime.now().year,
+                'msg': msg,
             })
     )
 
@@ -250,31 +327,75 @@ def relPrestador(request):
                 'year':datetime.now().year,
             })
     )
-
-   
+       
 #VIEWS DOS CONTRATANTES
 #PAGINA DOS SERVICOS CONTRATADOS
 @login_required(redirect_field_name='')
-def cadContratante(request):
+def pesquisaServicos(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+        frmPesquisa = PesquisaForm()
+        frmContratar = ContrataServicoForm()
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+        servicos = p_servico.recuperaServicosParaOContratante(request.user.id)
         return render(
             request,
-            'app/contratante/frm_contratante.html',
+            'app/contratante/pesquisaServicos.html',
             context_instance = RequestContext(request,
             {
                 'title':'Colmeia | Contratante',
                 'year':datetime.now().year,
+                'msg': msg,
+                'servicos': servicos,
+                #'distancias': p_servico.obterDistancias(servicos),
+                'frmPesquisa': frmPesquisa,
+                'frmContratar' : frmContratar,
             })
     )
 
+@login_required(redirect_field_name='')
+def pesquisarServicos(request):
+    if not request.user.is_authenticated():
+        return HttpResponse('loginpage')
+    else:
+        frmPesquisa = PesquisaForm()
+        frmContratar = ContrataServicoForm()
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
+        servicos = p_clienteServico.pesquisa(request, request.user.id)
+        return render(
+            request,
+            'app/contratante/pesquisaServicos.html',
+            context_instance = RequestContext(request,
+            {
+                'title':'Colmeia | Contratante',
+                'year':datetime.now().year,
+                'msg': msg,
+                'servicos': servicos,
+                #'distancias': p_servico.obterDistancias(servicos),
+                'frmPesquisa': frmPesquisa,
+                'frmContratar' : frmContratar,
+            })
+    )
 #PAGINA CADASTRAL CONTRATANTES 
 @login_required(redirect_field_name='')
 def servContratados(request):
     if not request.user.is_authenticated():
         return HttpResponse('loginpage')
     else:
+        if request.session.has_key('msg'):
+            msg = request.session['msg']
+            del request.session['msg']
+        else:
+            msg = None
         return render(
             request,
             'app/contratante/servContratados.html',
@@ -282,6 +403,8 @@ def servContratados(request):
             {
                 'title':'Colmeia | Servicos Contratados',
                 'year':datetime.now().year,
+                'msg': msg,
+                'servicos' : p_clienteServico.recuperaServicosPorCliente(request.user.id),
             })
     )
 
@@ -298,17 +421,15 @@ def relContratante(request):
             {
                 'title':'Colmeia | Relatorios Contratante',
                 'year':datetime.now().year,
+                'servicosContratados': p_relatorios.servicosContratados(request.user.id)
             })
     )
-
 
 def sair(request):
     #Renders the about page.
     request.session.flush()
     return redirect('index')
-    
-
-
+   
 def fazLogin(request):
     usuario = request.POST['login']
     senha = request.POST['password']

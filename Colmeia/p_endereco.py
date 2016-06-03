@@ -15,7 +15,7 @@ def incluir(request):
 def recuperaUltimoEndereco():
     objPerfil = models.Perfil.objects.all()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM app_endereco ORDER BY (IdentificadorEndereco) DESC ')
+    cursor.execute('SELECT * FROM app_endereco ORDER BY (IdEndereco) DESC ')
     rows = cursor.fetchall()
-    obj = Endereco.objects.latest('IdentificadorEndereco')
+    obj = Endereco.objects.latest('IdEndereco')
     return obj

@@ -12,6 +12,8 @@ ALLOWED_HOSTS = (
     'localhost',
 )
 
+FILE_CHARSET = 'utf-8'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -107,9 +109,12 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+REMOTE_USER_ENABLED = True
 
 ROOT_URLCONF = 'Colmeia.urls'
 
@@ -130,6 +135,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'app',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -168,3 +174,5 @@ LOGGING = {
 
 # Specify the default test runner.
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+    

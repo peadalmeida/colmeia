@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 def incluir(request):
-    objPerfil = Perfil.create(request.GET['IdentificadorPerfil'], request.GET['DescricaoPerfil'], request.GET['DataHoraInclusao'],request.GET['DataHoraExclusao'])
+    objPerfil = Perfil.create(request.GET['IdPerfil'], request.GET['DescricaoPerfil'], request.GET['DataHoraInclusao'],request.GET['DataHoraExclusao'])
     print objPerfil.valor
     print objPerfil.descricao
     objPerfil.save()
@@ -19,13 +19,13 @@ def recuperaPerfil():
 
 #recupera todos um objeto especifico pelo id
 def recuperaPerfil(idObj):
-	objPerfil = models.Perfil.objects.get(IdentificadorPerfil=idObj)
+	objPerfil = models.Perfil.objects.get(IdPerfil=idObj)
 	return objPerfil
 
 #recupera todos os objetos
 def recuperaPerfilLivre():
     objPerfil = models.Perfil.objects.all()
     cursor = connection.cursor()
-    cursor.execute('SELECT P.DescricaoPerfil FROM app_perfil where P.IdentificadorPerfil <> 1')
+    cursor.execute('SELECT P.DescricaoPerfil FROM app_perfil where P.IdPerfil <> 1')
     rows = cursor.fetchall()
     return rows

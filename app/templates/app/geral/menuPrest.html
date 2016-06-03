@@ -1,4 +1,5 @@
-﻿	<!-- INICIO MENU PRESTADOR  -->
+﻿{% load staticfiles %}	
+<!-- INICIO MENU PRESTADOR  -->
 				<li style="margin-top:-20px;">
 					<a class="collapsed" data-toggle="collapse" href="#menuPrestador">
 						<i class="menu-icon icon-briefcase"></i>
@@ -6,27 +7,43 @@
 						Prestador
 					</a>
 					<ul id="menuPrestador" class="collapse unstyled">
-						<li>
-							<a href="{% url 'cadPrestador' %}">
-								<i class="icon-inbox"></i>
-								Cadastro Prestador
+
+                         <li>
+							<a href="{% url 'diferenciais' %}">
+								<i class="icon-"> <img src="{% static 'sistema/images/icons/certification.png'%}"></i>
+								 Diferenciais
 							</a>
 						</li>
+
 						<li>
-							<a href="{% url 'servPrestados' %}">
-								<i class="icon-inbox"></i>
-								Serviços Prestados
+							<a href="{% url 'disponibilidade' %}">
+								<i class="icon-"><img src="{% static 'sistema/images/icons/agenda.png'%}"></i>
+								Disponibilidade 
+							</a>
+						</li>
+
+                        <li>
+							<a href="{% url 'servicosOferecidos' %}">
+								<i class="icon-"><img src="{% static 'sistema/images/icons/servicos.png'%}"></i>
+								Serviços Oferecidos 
+							</a>
+						</li>
+                       
+						<li>
+							<a href="{% url 'gerServicos' %}">
+								<i class="icon-"><img src="{% static 'sistema/images/icons/scheme11.png'%}"></i>
+								Gerenciar Serviços 
 							</a>
 						</li>
 						<li>
 							<a href="{% url 'colmeiaPontos' %}">
-								<i class="icon-inbox"></i>
+								<i class="icon-"><img src="{% static 'sistema/images/icons/pontos.png'%}"></i>
 								Colmeia Pontos
 							</a>
 						</li>
                         <li>
 							<a href="{% url 'relPrestador' %}">
-								<i class="icon-inbox"></i>
+								<i class="icon-"><img src="{% static 'sistema/images/icons/progress.png'%}"></i>
 								Relatórios
 							</a>
 						</li>
